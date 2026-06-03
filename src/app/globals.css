@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+:root {
+  --os-bg: #0a0e1a;
+  --os-bg2: #111827;
+  --os-accent: #38bdf8;
+  --os-accent2: #818cf8;
+  --os-text: #e2e8f0;
+  --os-muted: #94a3b8;
+  --os-window: rgba(17, 24, 39, 0.85);
+  --os-border: rgba(56, 189, 248, 0.35);
+  --os-taskbar: rgba(10, 14, 26, 0.75);
+  --os-font: ui-sans-serif, system-ui, sans-serif;
+  --os-wallpaper: radial-gradient(circle at 20% 20%, #1e293b 0%, #0a0e1a 55%),
+    radial-gradient(circle at 80% 80%, #312e81 0%, transparent 50%);
+}
+
+/* NEON / CYBERPUNK (default) handled by :root */
+
+[data-theme="matrix"] {
+  --os-bg: #000700;
+  --os-bg2: #021002;
+  --os-accent: #22c55e;
+  --os-accent2: #4ade80;
+  --os-text: #bbf7d0;
+  --os-muted: #3f9c5e;
+  --os-window: rgba(2, 16, 2, 0.88);
+  --os-border: rgba(34, 197, 94, 0.4);
+  --os-taskbar: rgba(0, 7, 0, 0.8);
+  --os-font: "Courier New", ui-monospace, monospace;
+  --os-wallpaper: radial-gradient(circle at 50% 0%, #052e16 0%, #000700 60%);
+}
+
+[data-theme="minimal"] {
+  --os-bg: #edf2ef;
+  --os-bg2: #dfe7e3;
+  --os-accent: #2d9f9b;
+  --os-accent2: #4fadc5;
+  --os-text: #15222a;
+  --os-muted: #5f6b72;
+  --os-window: rgba(250, 252, 251, 0.94);
+  --os-border: rgba(25, 39, 46, 0.12);
+  --os-taskbar: rgba(29, 37, 43, 0.92);
+  --os-font: ui-sans-serif, system-ui, sans-serif;
+  --os-wallpaper: radial-gradient(circle at 18% 18%, rgba(45, 159, 155, 0.12) 0%, transparent 28%),
+    radial-gradient(circle at 82% 22%, rgba(79, 173, 197, 0.1) 0%, transparent 24%),
+    linear-gradient(135deg, #edf2ef 0%, #e2e8e4 50%, #f5f7f6 100%);
+}
+
+/* removed non-OS themed presets (aurora, graphite, sunset) to keep OS-oriented set */
+
+[data-theme="retro"] {
+  --os-bg: #1a1205;
+  --os-bg2: #2a1d08;
+  --os-accent: #f59e0b;
+  --os-accent2: #fbbf24;
+  --os-text: #fde68a;
+  --os-muted: #b08838;
+  --os-window: rgba(26, 18, 5, 0.9);
+  --os-border: rgba(245, 158, 11, 0.4);
+  --os-taskbar: rgba(26, 18, 5, 0.82);
+  --os-font: "Courier New", ui-monospace, monospace;
+  --os-wallpaper: repeating-linear-gradient(
+      0deg,
+      rgba(245, 158, 11, 0.04) 0px,
+      rgba(245, 158, 11, 0.04) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(circle at 50% 50%, #3a2a0a 0%, #1a1205 70%);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--os-bg);
+  color: var(--os-text);
+  font-family: var(--os-font);
+}
+
+.os-root {
+  background: var(--os-wallpaper), var(--os-bg);
+  color: var(--os-text);
+  font-family: var(--os-font);
+}
+
+.os-window {
+  background: var(--os-window);
+  border: 1px solid var(--os-border);
+  backdrop-filter: blur(12px);
+}
+
+.os-accent {
+  color: var(--os-accent);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.anim-fade {
+  animation: fadeIn 0.22s ease-out;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.anim-flicker {
+  animation: flicker 0.8s ease-out;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 9999;
+}
+
+/* Scrollbars */
+.os-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.os-scroll::-webkit-scrollbar-thumb {
+  background: var(--os-border);
+  border-radius: 8px;
+}
+.os-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.no-select {
+  user-select: none;
+}
