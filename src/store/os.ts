@@ -6,6 +6,7 @@ export type AppId =
   | "files"
   | "terminal"
   | "about"
+  | "experience"
   | "projects"
   | "skills"
   | "resume"
@@ -62,6 +63,7 @@ const APP_TITLES: Record<AppId, string> = {
   files: "File Explorer",
   terminal: "Terminal",
   about: "About — readme.txt",
+  experience: "Experience",
   projects: "Projects",
   skills: "Skills",
   resume: "Resume.pdf",
@@ -78,6 +80,7 @@ const DEFAULT_SIZE: Record<AppId, { w: number; h: number }> = {
   files: { w: 720, h: 460 },
   terminal: { w: 680, h: 420 },
   about: { w: 560, h: 460 },
+  experience: { w: 680, h: 520 },
   projects: { w: 720, h: 520 },
   skills: { w: 600, h: 500 },
   resume: { w: 640, h: 600 },

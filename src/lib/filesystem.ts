@@ -3,10 +3,8 @@ import type { AppId } from "@/store/os";
 export type FSNode = {
   name: string;
   type: "folder" | "file";
-  // for files: which app opens it and an optional content key/payload
   opens?: AppId;
   payload?: string;
-  // textual content for .txt files shown in a simple viewer
   content?: string;
   ext?: string;
   children?: FSNode[];
@@ -28,17 +26,20 @@ export const filesystem: FSNode = {
               name: "About",
               type: "folder",
               children: [
+                { name: "readme.txt", type: "file", ext: "txt", opens: "about" },
+                { name: "contact.vcf", type: "file", ext: "vcf", opens: "about" },
+              ],
+            },
+            {
+              name: "Experience",
+              type: "folder",
+              opens: "experience",
+              children: [
                 {
-                  name: "readme.txt",
+                  name: "VECV-internship.ipynb",
                   type: "file",
-                  ext: "txt",
-                  opens: "about",
-                },
-                {
-                  name: "whoami.exe",
-                  type: "file",
-                  ext: "exe",
-                  opens: "ai",
+                  ext: "ipynb",
+                  opens: "experience",
                 },
               ],
             },
@@ -48,25 +49,32 @@ export const filesystem: FSNode = {
               opens: "projects",
               children: [
                 {
-                  name: "data-analysis-cli.ipynb",
+                  name: "damage-vision.ipynb",
                   type: "file",
                   ext: "ipynb",
                   opens: "projects",
-                  payload: "data-cli",
+                  payload: "damage-vision",
                 },
                 {
-                  name: "prompt-engineering.ipynb",
+                  name: "demand-forecasting.ipynb",
                   type: "file",
                   ext: "ipynb",
                   opens: "projects",
-                  payload: "prompt-eng",
+                  payload: "demand-forecasting",
                 },
                 {
-                  name: "student-predictor.ipynb",
+                  name: "csvpi.ipynb",
                   type: "file",
                   ext: "ipynb",
                   opens: "projects",
-                  payload: "student-predictor",
+                  payload: "csvpi",
+                },
+                {
+                  name: "student-sphere.ipynb",
+                  type: "file",
+                  ext: "ipynb",
+                  opens: "projects",
+                  payload: "student-sphere",
                 },
               ],
             },
@@ -74,9 +82,7 @@ export const filesystem: FSNode = {
               name: "Skills",
               type: "folder",
               opens: "skills",
-              children: [
-                { name: "stack.json", type: "file", ext: "json", opens: "skills" },
-              ],
+              children: [{ name: "stack.json", type: "file", ext: "json", opens: "skills" }],
             },
             {
               name: "Certifications",
@@ -84,7 +90,7 @@ export const filesystem: FSNode = {
               opens: "certs",
               children: [
                 { name: "aws.png", type: "file", ext: "png", opens: "certs" },
-                { name: "google-cloud.png", type: "file", ext: "png", opens: "certs" },
+                { name: "ibm-cisco.png", type: "file", ext: "png", opens: "certs" },
               ],
             },
             {
@@ -97,28 +103,16 @@ export const filesystem: FSNode = {
             {
               name: "Games",
               type: "folder",
-              children: [
-                { name: "bug-hunter.exe", type: "file", ext: "exe", opens: "game" },
-              ],
+              children: [{ name: "bug-hunter.exe", type: "file", ext: "exe", opens: "game" }],
             },
-            {
-              name: "Resume.pdf",
-              type: "file",
-              ext: "pdf",
-              opens: "resume",
-            },
-            {
-              name: "guestbook.exe",
-              type: "file",
-              ext: "exe",
-              opens: "guestbook",
-            },
+            { name: "Resume.pdf", type: "file", ext: "pdf", opens: "resume" },
+            { name: "guestbook.exe", type: "file", ext: "exe", opens: "guestbook" },
             {
               name: "secrets.txt",
               type: "file",
               ext: "txt",
               content:
-                "TOP SECRET // SarthakOS kernel notes\n\n- Coffee is a non-negotiable dependency.\n- Sleep is deprecated, scheduled for removal.\n- Try the terminal command: sudo hire sarthak\n- Ask the Neural Core (SarthakAI) anything.\n- Konami of this OS: type 'matrix' in the terminal.\n\n// end of file",
+                "TOP SECRET // SarthakOS kernel notes\n\n- Coffee is a non-negotiable dependency.\n- Sleep is deprecated, scheduled for removal.\n- Try the terminal command: sudo hire sarthak\n- Ask the Neural Core (SarthakAI) anything.\n- Type 'matrix' in the terminal for a themed experience.\n\n// end of file",
             },
           ],
         },

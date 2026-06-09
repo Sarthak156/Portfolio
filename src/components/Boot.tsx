@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOS } from "@/store/os";
 import { playSfx, soundState } from "@/lib/sound";
 
@@ -17,24 +17,39 @@ const STEPS = [
 
 export default function Boot() {
   const setPhase = useOS((s) => s.setPhase);
+  const [shown, setShown] = useState<string[]>([]);
   const [done, setDone] = useState(false);
+  const autoLaunched = useRef(false);
 
   useEffect(() => {
-    setDone(false);
-
-    const totalDuration = STEPS.length * 360 + 500;
-    const id = setTimeout(() => setDone(true), totalDuration);
-
-    return () => {
-      clearTimeout(id);
-    };
+    let i = 0;
+    const id = setInterval(() => {
+      setShown(STEPS.slice(0, i + 1));
+      i++;
+      if (i >= STEPS.length) {
+        clearInterval(id);
+        setTimeout(() => setDone(true), 600);
+      }
+    }, 320);
+    return () => clearInterval(id);
   }, []);
+
+  // Auto-launch to desktop once boot simulation is done — no user click required.
+  useEffect(() => {
+    if (!done || autoLaunched.current) return;
+    autoLaunched.current = true;
+    // small delay so the final screen is visible
+    setTimeout(() => {
+      if (soundState.on) playSfx("boot");
+      setPhase("desktop");
+    }, 900);
+  }, [done, setPhase]);
 
   return (
     <div
       className="os-root crt flex h-screen w-screen flex-col items-center justify-center"
       onClick={() => {
-        // first interaction primes audio + boot chime
+        // prime audio on first interaction
         if (soundState.on) playSfx("boot");
       }}
     >
@@ -42,33 +57,20 @@ export default function Boot() {
         <div className="mb-4 text-center text-2xl font-bold os-accent">
           ⬡ SarthakOS
         </div>
-        {STEPS.map((s, i) => (
-          <div
-            key={s}
-            className="anim-fade anim-flicker mb-1 text-[var(--os-text)]"
-            style={{ animationDelay: `${i * 360}ms`, animationFillMode: "both" }}
-          >
-            <span className="text-[var(--os-muted)]">[{String(i).padStart(2, "0")}]</span>{" "}
-            {s}
-          </div>
-        ))}
-        {!done && (
-          <span className="cursor-blink os-accent">▋</span>
-        )}
+        <div className="min-h-[14rem]">
+          {shown.map((s, i) => (
+            <div key={i} className="anim-flicker mb-1 text-[var(--os-text)]">
+              <span className="text-[var(--os-muted)]">[{String(i).padStart(2, "0")}]</span>{" "}
+              {s}
+            </div>
+          ))}
+          {!done && shown.length < STEPS.length && (
+            <span className="cursor-blink os-accent">▋</span>
+          )}
+        </div>
         {done && (
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => {
-                playSfx("boot");
-                setPhase("login");
-              }}
-              className="rounded-lg border border-[var(--os-border)] px-6 py-2 text-sm font-semibold os-accent hover:bg-[var(--os-border)]"
-            >
-              ▶ Enter SarthakOS
-            </button>
-            <p className="mt-2 text-xs text-[var(--os-muted)]">
-              click anywhere to enable sound
-            </p>
+          <div className="mt-6 text-center text-xs text-[var(--os-muted)]">
+            handoff to desktop environment<span className="cursor-blink">▋</span>
           </div>
         )}
       </div>

@@ -40,7 +40,7 @@ export default function Settings() {
   return (
     <div className="os-scroll h-full overflow-auto p-5 text-sm">
       <h2 className="mb-3 font-semibold os-accent">🎨 Appearance</h2>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3">
         {THEMES.map((t) => (
           <button
             key={t.id}
@@ -48,22 +48,22 @@ export default function Settings() {
               setTheme(t.id);
               playSfx("click");
             }}
-            className={`rounded-2xl border p-3 text-left transition duration-200 hover:-translate-y-0.5 ${
+            className={`rounded-xl border p-3 text-left transition ${
               theme === t.id
-                ? "border-white/25 bg-white/10 ring-2 ring-[var(--os-accent)]/60"
-                : "border-[var(--os-border)] bg-white/5"
+                ? "border-[var(--os-accent)] ring-2 ring-[var(--os-accent)]"
+                : "border-[var(--os-border)]"
             }`}
           >
             <div className="mb-2 flex gap-1">
               {t.swatch.map((c) => (
                 <span
                   key={c}
-                  className="h-5 w-5 rounded-full border border-white/20 shadow-sm"
+                  className="h-5 w-5 rounded-full border border-white/20"
                   style={{ background: c }}
                 />
               ))}
             </div>
-            <div className="text-sm font-semibold">{t.name}</div>
+            <div className="text-xs font-semibold">{t.name}</div>
             <div className="text-[10px] text-[var(--os-muted)]">{t.desc}</div>
           </button>
         ))}

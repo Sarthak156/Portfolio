@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { resolvePath } from "@/lib/filesystem";
 import { useOS, type AppId, type Theme } from "@/store/os";
-import { profile, projects, skills, certifications } from "@/lib/data";
+import { profile, projects, skills, certifications, experience } from "@/lib/data";
 import { playSfx } from "@/lib/sound";
 
 type Line = { text: string; cls?: string };
@@ -51,6 +51,9 @@ export default function Terminal() {
     const arg = args.join(" ");
 
     const apps: Record<string, AppId> = {
+      about: "about",
+      ai: "ai",
+      experience: "experience",
       projects: "projects",
       resume: "resume",
       skills: "skills",
@@ -76,6 +79,7 @@ export default function Terminal() {
           "  clear             clear the screen",
           "  about             about Sarthak",
           "  skills            list technical skills",
+          "  experience        internship / work history",
           "  projects          list / open projects",
           "  resume            open resume",
           "  contact           contact details",
@@ -135,7 +139,19 @@ export default function Terminal() {
         setLines([]);
         break;
       case "about":
-        push([profile.name, profile.title, profile.location, "", profile.summary]);
+        push([
+          `${profile.name} — ${profile.title}`,
+          `📍 ${profile.location}`,
+          "",
+          profile.summary,
+        ]);
+        break;
+      case "experience":
+        push("Experience (use 'open experience' for a richer view):");
+        experience.forEach((ex) => {
+          push(`  💼 ${ex.role} @ ${ex.company} (${ex.period})`);
+          ex.highlights.forEach((h) => push(`    · ${h}`));
+        });
         break;
       case "skills":
         skills.forEach((s) => push(`${s.group}: ${s.items.join(", ")}`));
@@ -156,6 +172,7 @@ export default function Terminal() {
           `Email:    ${profile.email}`,
           `Phone:    ${profile.phone}`,
           `LinkedIn: ${profile.linkedin}`,
+          `GitHub:   ${profile.github}`,
           `Location: ${profile.location}`,
         ]);
         break;

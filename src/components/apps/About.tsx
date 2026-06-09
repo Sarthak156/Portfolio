@@ -19,7 +19,7 @@ export default function About() {
         </div>
         <div>
           <h1 className="text-xl font-bold">{profile.name}</h1>
-          <p className="text-[var(--os-muted)]">{profile.title}</p>
+          <p className="text-[var(--os-muted)] text-xs">{profile.title}</p>
           <p className="text-xs text-[var(--os-muted)]">📍 {profile.location}</p>
         </div>
       </div>
@@ -30,9 +30,9 @@ export default function About() {
       <ul className="mb-4 space-y-2">
         {education.map((e) => (
           <li key={e.school} className="rounded-lg border border-[var(--os-border)] p-2">
-            <div className="font-medium">{e.degree}</div>
+            <div className="font-medium text-sm">{e.degree}</div>
             <div className="text-xs text-[var(--os-muted)]">
-              {e.school} · {e.period}
+              {e.school} · {e.period} {e.cgpa ? `· ${e.cgpa}` : ""}
             </div>
           </li>
         ))}
@@ -52,10 +52,16 @@ export default function About() {
 
       <div className="flex flex-wrap gap-2">
         <button
+          onClick={() => openApp("experience")}
+          className="rounded-lg border border-[var(--os-border)] px-3 py-1.5 text-xs hover:bg-[var(--os-border)]"
+        >
+          💼 Experience
+        </button>
+        <button
           onClick={() => openApp("projects")}
           className="rounded-lg border border-[var(--os-border)] px-3 py-1.5 text-xs hover:bg-[var(--os-border)]"
         >
-          📂 View Projects
+          📂 Projects
         </button>
         <button
           onClick={() => openApp("ai")}
@@ -76,6 +82,14 @@ export default function About() {
           className="rounded-lg border border-[var(--os-border)] px-3 py-1.5 text-xs hover:bg-[var(--os-border)]"
         >
           🔗 LinkedIn
+        </a>
+        <a
+          href={profile.github}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-lg border border-[var(--os-border)] px-3 py-1.5 text-xs hover:bg-[var(--os-border)]"
+        >
+          🐙 GitHub
         </a>
       </div>
     </div>

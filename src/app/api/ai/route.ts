@@ -5,6 +5,7 @@ import {
   skills,
   certifications,
   education,
+  experience,
   activities,
 } from "@/lib/data";
 
@@ -23,7 +24,8 @@ Location: ${profile.location}
 Email: ${profile.email}
 LinkedIn: ${profile.linkedin}
 Summary: ${profile.summary}
-Education: ${education.map((e) => `${e.degree} @ ${e.school} (${e.period})`).join("; ")}
+Education: ${education.map((e) => `${e.degree} @ ${e.school} (${e.period}) ${e.cgpa ?? ""}`).join("; ")}
+Experience: ${experience.map((ex) => `${ex.role} @ ${ex.company} (${ex.period}): ${ex.highlights.join(" ")}`).join(" || ")}
 Skills: ${skills.map((s) => `${s.group}: ${s.items.join(", ")}`).join(" | ")}
 Projects: ${projects
   .map((p) => `${p.name} [${p.stack.join(", ")}] — ${p.highlights.join(" ")}`)
@@ -34,15 +36,18 @@ Activities: ${activities.map((a) => `${a.title}: ${a.detail}`).join(" | ")}
 
 function localAnswer(q: string): string {
   const m = q.toLowerCase();
+  if (/internship|experience|work|role|job|vecv|eicher/.test(m)) {
+    return `Sarthak just completed a Data Science internship at VE Commercial Vehicles (VECV / Eicher Group). Built a hybrid ML forecasting pipeline with ~80% accuracy across 2,000+ spare-part SKUs, engineered 30+ features, performed data-leakage audits, and delivered dashboards/EDA reports.`;
+  }
   if (/project/.test(m)) {
     return `I've scanned the project archive. Sarthak has ${projects.length} flagship builds: ${projects
       .map((p) => p.name)
-      .join(", ")}. Most use Python + data science. Want a deep dive on one?`;
+      .join(", ")}. Strongest focus: Python, ML, forecasting, and full-stack tools.`;
   }
   if (/skill|tech|stack|language/.test(m)) {
-    return `Core stack analysis: ${skills
+    return `Core stack: ${skills
       .map((s) => s.items.slice(0, 2).join("/"))
-      .join(", ")}. Strongest signal detected in Python, SQL and applied ML.`;
+      .join(", ")}. Strongest signal detected in Python, SQL, Scikit-learn, time-series forecasting, and applied ML.`;
   }
   if (/cert/.test(m)) {
     return `Credential registry: ${certifications

@@ -3,6 +3,7 @@
 import {
   profile,
   education,
+  experience,
   skills,
   projects,
   certifications,
@@ -27,25 +28,33 @@ export default function ResumeViewer() {
           <p className="text-xs text-slate-600">
             {profile.phone} · {profile.email} · {profile.location}
           </p>
-          <p className="text-xs text-blue-700">{profile.linkedin}</p>
+          <p className="text-xs text-blue-700">
+            {profile.linkedin} · {profile.github}
+          </p>
 
-          <Section title="Summary">
+          <Section title="Professional Summary">
             <p className="text-xs">{profile.summary}</p>
           </Section>
 
           <Section title="Education">
             {education.map((e) => (
               <div key={e.school} className="mb-1 text-xs">
-                <strong>{e.school}</strong> — {e.degree} ({e.period})
+                <strong>{e.degree}</strong> — {e.school} ({e.period}){" "}
+                {e.cgpa ? `· ${e.cgpa}` : ""}
               </div>
             ))}
           </Section>
 
-          <Section title="Technical Skills">
-            {skills.map((s) => (
-              <p key={s.group} className="text-xs">
-                <strong>{s.group}:</strong> {s.items.join(", ")}
-              </p>
+          <Section title="Experience">
+            {experience.map((ex) => (
+              <div key={ex.company} className="mb-2 text-xs">
+                <strong>{ex.role}</strong> · {ex.company} ({ex.period})
+                <ul className="ml-4 mt-1 list-disc">
+                  {ex.highlights.map((h, i) => (
+                    <li key={i}>{h}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </Section>
 
@@ -60,6 +69,14 @@ export default function ResumeViewer() {
                   ))}
                 </ul>
               </div>
+            ))}
+          </Section>
+
+          <Section title="Technical Skills">
+            {skills.map((s) => (
+              <p key={s.group} className="text-xs">
+                <strong>{s.group}:</strong> {s.items.join(", ")}
+              </p>
             ))}
           </Section>
 

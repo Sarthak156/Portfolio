@@ -1,10 +1,16 @@
-import { addGuestbookEntry, listGuestbookEntries } from "@/db/runtime";
+import { db } from "@/db";
+import { guestbook } from "@/db/schema";
+import { desc } from "drizzle-orm";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const rows = await listGuestbookEntries();
+    const rows = await db
+      .select()
+      .from(guestbook)
+      .orderBy(desc(guestbook.createdAt))
+      .limit(50);
     return Response.json({ ok: true, entries: rows });
   } catch {
     return Response.json({ ok: false, entries: [] }, { status: 500 });
@@ -22,7 +28,10 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    const row = await addGuestbookEntry(name, message);
+    const [row] = await db
+      .insert(guestbook)
+      .values({ name, message })
+      .returning();
     return Response.json({ ok: true, entry: row });
   } catch {
     return Response.json({ ok: false, error: "Server error" }, { status: 500 });

@@ -15,10 +15,6 @@ export default function Window({ win }: { win: WinState }) {
 
   const drag = useRef<{ ox: number; oy: number; sx: number; sy: number } | null>(null);
   const rez = useRef<{ sw: number; sh: number; sx: number; sy: number } | null>(null);
-  const maxWidth = Math.max(320, window.innerWidth - 24);
-  const maxHeight = Math.max(220, window.innerHeight - 72);
-  const width = Math.min(win.width, maxWidth);
-  const height = Math.min(win.height, maxHeight);
 
   function onDragStart(e: React.PointerEvent) {
     if (win.maximized) return;
@@ -60,8 +56,8 @@ export default function Window({ win }: { win: WinState }) {
       style={{
         left: win.x,
         top: win.y,
-        width,
-        height,
+        width: win.width,
+        height: win.height,
         zIndex: win.z,
       }}
       onPointerDown={() => focusWindow(win.id)}

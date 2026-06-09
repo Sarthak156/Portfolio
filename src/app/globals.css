@@ -32,22 +32,18 @@
 }
 
 [data-theme="minimal"] {
-  --os-bg: #edf2ef;
-  --os-bg2: #dfe7e3;
-  --os-accent: #2d9f9b;
-  --os-accent2: #4fadc5;
-  --os-text: #15222a;
-  --os-muted: #5f6b72;
-  --os-window: rgba(250, 252, 251, 0.94);
-  --os-border: rgba(25, 39, 46, 0.12);
-  --os-taskbar: rgba(29, 37, 43, 0.92);
+  --os-bg: #f1f5f9;
+  --os-bg2: #e2e8f0;
+  --os-accent: #2563eb;
+  --os-accent2: #7c3aed;
+  --os-text: #0f172a;
+  --os-muted: #64748b;
+  --os-window: rgba(255, 255, 255, 0.92);
+  --os-border: rgba(37, 99, 235, 0.25);
+  --os-taskbar: rgba(255, 255, 255, 0.8);
   --os-font: ui-sans-serif, system-ui, sans-serif;
-  --os-wallpaper: radial-gradient(circle at 18% 18%, rgba(45, 159, 155, 0.12) 0%, transparent 28%),
-    radial-gradient(circle at 82% 22%, rgba(79, 173, 197, 0.1) 0%, transparent 24%),
-    linear-gradient(135deg, #edf2ef 0%, #e2e8e4 50%, #f5f7f6 100%);
+  --os-wallpaper: linear-gradient(135deg, #dbeafe 0%, #ede9fe 50%, #fae8ff 100%);
 }
-
-/* removed non-OS themed presets (aurora, graphite, sunset) to keep OS-oriented set */
 
 [data-theme="retro"] {
   --os-bg: #1a1205;
@@ -188,4 +184,320 @@ body {
 
 .no-select {
   user-select: none;
+}
+
+/* GO Launcher / neon-black style app icons */
+.neon-app-tile {
+  --tile-accent: #c084fc;
+  --tile-accent2: #22d3ee;
+  background:
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.18), transparent 24%),
+    linear-gradient(145deg, #35343d 0%, #16171e 42%, #050509 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -10px 18px rgba(0, 0, 0, 0.55),
+    inset 8px 8px 16px rgba(255, 255, 255, 0.03),
+    0 12px 22px rgba(0, 0, 0, 0.5);
+}
+
+.neon-app-tile::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--tile-accent) 70%, transparent);
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--tile-accent) 65%, transparent),
+    inset 0 0 12px rgba(255, 255, 255, 0.04);
+  opacity: 0.9;
+}
+
+.neon-app-tile::after {
+  content: "";
+  position: absolute;
+  inset: -35% -20% auto -20%;
+  height: 70%;
+  transform: rotate(-18deg);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.03),
+    transparent
+  );
+  opacity: 0.45;
+}
+
+.neon-app-glow {
+  position: absolute;
+  inset: 13px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--tile-accent) 38%, transparent), transparent 64%),
+    radial-gradient(circle at 65% 35%, color-mix(in srgb, var(--tile-accent2) 36%, transparent), transparent 60%);
+  opacity: 0.82;
+}
+
+@keyframes wheelMorphIn {
+  0% {
+    opacity: 0;
+    transform: scale3d(0.16, 0.16, 1) rotate(-18deg);
+  }
+  62% {
+    opacity: 1;
+    transform: scale3d(1.04, 1.04, 1) rotate(3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+.wheel-morph-in {
+  transform-origin: center center;
+  will-change: transform, opacity;
+  animation: wheelMorphIn 0.52s cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+/* Lightweight staggered icon entrance; no infinite shadow animation for smoother FPS */
+@keyframes optionPopIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale3d(0.72, 0.72, 1) rotate(-7deg);
+  }
+  68% {
+    opacity: 1;
+    transform: translate3d(0, -2px, 0) scale3d(1.04, 1.04, 1) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0deg);
+  }
+}
+
+.option-pop {
+  will-change: transform, opacity;
+  animation: optionPopIn 0.42s cubic-bezier(0.22, 0.9, 0.28, 1) both;
+}
+
+/* Live hexagon wallpaper inspired by the attached neon honeycomb image */
+.live-wallpaper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  contain: layout paint style;
+  transform: translateZ(0);
+  background:
+    radial-gradient(circle at 70% 23%, rgba(255, 179, 105, 0.2), transparent 22%),
+    radial-gradient(circle at 68% 59%, rgba(0, 255, 219, 0.16), transparent 24%),
+    radial-gradient(circle at 20% 82%, rgba(59, 163, 255, 0.18), transparent 22%),
+    radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.15), transparent 20%),
+    radial-gradient(circle at 25% 75%, rgba(34, 197, 94, 0.15), transparent 20%),
+    linear-gradient(135deg, #030509 0%, #070b12 44%, #030407 100%);
+}
+
+.hex-grid {
+  position: absolute;
+  inset: -8%;
+  opacity: 0.34;
+  will-change: transform;
+  background-image:
+    linear-gradient(30deg, rgba(255, 255, 255, 0.075) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.075) 87.5%, rgba(255, 255, 255, 0.075)),
+    linear-gradient(150deg, rgba(255, 255, 255, 0.075) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.075) 87.5%, rgba(255, 255, 255, 0.075)),
+    linear-gradient(60deg, rgba(255, 255, 255, 0.055) 25%, transparent 25.5%, transparent 75%, rgba(255, 255, 255, 0.055) 75%, rgba(255, 255, 255, 0.055));
+  background-position: 0 0, 0 0, 0 0;
+  background-size: 104px 182px;
+}
+
+.hex-grid-a {
+  animation: hexDriftA 44s linear infinite;
+}
+
+@keyframes hexDriftA {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-104px, -182px, 0);
+  }
+}
+
+.hex-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  opacity: 0.38;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+  animation: glowPulse 7.5s ease-in-out infinite;
+}
+
+.glow-orange {
+  background: rgba(255, 147, 51, 0.5);
+}
+.glow-cyan {
+  background: rgba(0, 255, 221, 0.45);
+}
+.glow-blue {
+  background: rgba(59, 163, 255, 0.42);
+}
+.glow-purple {
+  background: rgba(168, 85, 247, 0.42);
+}
+.glow-green {
+  background: rgba(34, 197, 94, 0.42);
+}
+
+.glow-orange-1 {
+  left: 48%;
+  top: 12%;
+}
+.glow-orange-2 {
+  left: 6%;
+  top: 37%;
+  animation-delay: -2s;
+}
+.glow-cyan-1 {
+  left: 58%;
+  top: 48%;
+  animation-delay: -1.2s;
+}
+.glow-cyan-2 {
+  left: 70%;
+  top: 64%;
+  animation-delay: -3.1s;
+}
+.glow-blue-1 {
+  left: 4%;
+  top: 72%;
+  animation-delay: -2.4s;
+}
+.glow-purple-1 {
+  left: 80%;
+  top: 20%;
+  animation-delay: -4s;
+}
+.glow-green-1 {
+  left: 20%;
+  top: 80%;
+  animation-delay: -2.8s;
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.36;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.72;
+  }
+}
+
+.hex-line {
+  position: absolute;
+  height: 3px;
+  border-radius: 999px;
+  transform-origin: left center;
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: neonTrace 6.4s ease-in-out infinite;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.line-orange {
+  color: #ff9a3d;
+  background: linear-gradient(90deg, transparent, #ff9a3d, #fff2cf, transparent);
+}
+.line-cyan {
+  color: #00ffe0;
+  background: linear-gradient(90deg, transparent, #00ffe0, #dbfff9, transparent);
+}
+.line-blue {
+  color: #3ba3ff;
+  background: linear-gradient(90deg, transparent, #3ba3ff, #e5f3ff, transparent);
+}
+.line-purple {
+  color: #a855f7;
+  background: linear-gradient(90deg, transparent, #a855f7, #f3e8ff, transparent);
+}
+.line-green {
+  color: #22c55e;
+  background: linear-gradient(90deg, transparent, #22c55e, #dcfce7, transparent);
+}
+
+.line-orange-1 {
+  width: 180px;
+  left: 50%;
+  top: 22%;
+  transform: rotate(-30deg);
+}
+.line-orange-2 {
+  width: 210px;
+  left: 7%;
+  top: 42%;
+  transform: rotate(30deg);
+  animation-delay: -1.7s;
+}
+.line-cyan-1 {
+  width: 190px;
+  left: 58%;
+  top: 60%;
+  transform: rotate(30deg);
+  animation-delay: -0.7s;
+}
+.line-cyan-2 {
+  width: 150px;
+  left: 73%;
+  top: 71%;
+  transform: rotate(90deg);
+  animation-delay: -2.2s;
+}
+.line-blue-1 {
+  width: 170px;
+  left: 5%;
+  top: 83%;
+  transform: rotate(30deg);
+  animation-delay: -3.2s;
+}
+.line-purple-1 {
+  width: 160px;
+  left: 75%;
+  top: 25%;
+  transform: rotate(150deg);
+  animation-delay: -1.5s;
+}
+.line-green-1 {
+  width: 180px;
+  left: 15%;
+  top: 85%;
+  transform: rotate(210deg);
+  animation-delay: -2.5s;
+}
+
+@keyframes neonTrace {
+  0%,
+  20% {
+    opacity: 0;
+    scale: 0 1;
+  }
+  45%,
+  72% {
+    opacity: 0.9;
+    scale: 1 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.08 1;
+  }
+}
+
+.wall-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.16) 45%, rgba(0, 0, 0, 0.78) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.38), transparent 32%, rgba(0, 0, 0, 0.45));
 }
