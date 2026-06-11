@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import type { CSSProperties } from "react";
 import {
   Activity,
@@ -58,6 +58,12 @@ export default function AppWheel({
   const [hovered, setHovered] = useState<AppId | null>(null);
   const openApp = useOS((s) => s.openApp);
 
+  const [isDragging, setIsDragging] = useState(false);
+  const [hasDragged, setHasDragged] = useState(false);
+  const [startPointerAngle, setStartPointerAngle] = useState(0);
+  const [startWheelAngle, setStartWheelAngle] = useState(0);
+  const wheelRef = useRef<HTMLDivElement>(null);
+
   const activeApp = useMemo(
     () => APPS.find((a) => a.id === hovered) ?? null,
     [hovered]
@@ -79,7 +85,43 @@ export default function AppWheel({
     return () => window.removeEventListener("keydown", onKey);
   }, [hovered, openApp, onLaunch]);
 
+  const getPointerAngle = (clientX: number, clientY: number) => {
+    if (!wheelRef.current) return 0;
+    const rect = wheelRef.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    return Math.atan2(clientY - cy, clientX - cx) * (180 / Math.PI);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    setIsDragging(true);
+    setHasDragged(false);
+    setStartPointerAngle(getPointerAngle(e.clientX, e.clientY));
+    setStartWheelAngle(angle);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    const currentPointerAngle = getPointerAngle(e.clientX, e.clientY);
+    let diff = currentPointerAngle - startPointerAngle;
+
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+
+    if (Math.abs(diff) > 2) {
+      setHasDragged(true);
+    }
+
+    setAngle(startWheelAngle + diff);
+  };
+
+  const handlePointerUp = () => {
+    setIsDragging(false);
+  };
+
   function launch(id: AppId) {
+    if (hasDragged) return;
     openApp(id);
     playSfx("open");
     onLaunch?.();
@@ -90,12 +132,18 @@ export default function AppWheel({
 
   return (
     <div
-      className={`pointer-events-auto absolute inset-0 flex items-center justify-center ${
+      ref={wheelRef}
+      className={`pointer-events-auto absolute inset-0 flex items-center justify-center touch-none ${
         morphing ? "wheel-morph-in" : ""
       }`}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onPointerLeave={handlePointerUp}
     >
       <div
-        className="relative"
+        className="relative scale-[0.6] sm:scale-75 md:scale-100"
         style={{ width: 2 * R + 210, height: 2 * R + 210 }}
       >
         <div
@@ -113,21 +161,20 @@ export default function AppWheel({
         />
 
         <div
-          className="absolute left-1/2 top-1/2 rounded-full border border-white/10"
+          className="absolute inset-0 m-auto rounded-full border border-white/10"
           style={{
             width: 2 * R - 70,
             height: 2 * R - 70,
-            transform: "translate(-50%, -50%)",
             background:
               "radial-gradient(circle at 50% 45%, rgba(30,41,59,0.98), rgba(2,6,23,0.98) 70%)",
           }}
         />
 
         <div
-          className="absolute left-1/2 top-1/2"
+          className="absolute inset-0"
           style={{
-            transform: `translate(-50%, -50%) rotate(${angle}deg)`,
-            transition: "transform 0.45s cubic-bezier(.22,.9,.28,1)",
+            transform: `rotate(${angle}deg)`,
+            transition: isDragging ? "none" : "transform 0.45s cubic-bezier(.22,.9,.28,1)",
           }}
         >
           {APPS.map((app, idx) => {
@@ -138,17 +185,14 @@ export default function AppWheel({
             return (
               <div
                 key={app.id}
-                className="absolute left-0 top-0"
+                className="absolute left-1/2 top-1/2 flex h-0 w-0 items-center justify-center"
                 style={{ transform: `rotate(${rot}deg) translateY(-${R}px)` }}
               >
                 <div
-                  className="absolute left-0 top-0 flex flex-col items-center"
+                  className="flex items-center justify-center"
                   style={{ transform: `rotate(-${angle + rot}deg)` }}
                 >
-                  <div
-                    className="absolute left-0 top-0 flex flex-col items-center"
-                    style={{ transform: "translate(-50%, -50%)" }}
-                  >
+                  <div className="relative flex items-center justify-center">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -177,7 +221,7 @@ export default function AppWheel({
                     </button>
 
                     <div
-                      className={`pointer-events-none mt-2 max-w-[116px] whitespace-nowrap rounded-md border border-white/15 bg-black/65 px-2 py-0.5 text-center text-[11px] font-medium text-white shadow-lg backdrop-blur transition-all duration-150 ${
+                      className={`pointer-events-none absolute left-1/2 top-[76px] -translate-x-1/2 max-w-[116px] whitespace-nowrap rounded-md border border-white/15 bg-black/65 px-2 py-0.5 text-center text-[11px] font-medium text-white shadow-lg backdrop-blur transition-all duration-150 ${
                         selected
                           ? "translate-y-0 opacity-100"
                           : "translate-y-1 opacity-0"
@@ -192,7 +236,7 @@ export default function AppWheel({
           })}
         </div>
 
-        <div className="pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
           <div
             className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-black"
             style={{
@@ -209,7 +253,7 @@ export default function AppWheel({
             {activeApp ? activeApp.label : "SarthakOS"}
           </div>
           <div className="mt-0.5 text-[9px] text-white/60">
-            hover · tap · rotate with arrows
+            drag to rotate · tap to open
           </div>
         </div>
 
