@@ -128,15 +128,40 @@ export const useOS = create<OSState>((set, get) => ({
     const size = DEFAULT_SIZE[app];
     const z = state.topZ + 1;
     const offset = (state.windows.length % 6) * 28;
+
+    let w = size.w;
+    let h = size.h;
+    let x = 80 + offset;
+    let y = 60 + offset;
+
+    if (typeof window !== "undefined") {
+      const isMobile = window.innerWidth < 640;
+      if (isMobile) {
+        w = window.innerWidth - 16;
+        h = window.innerHeight - 80; // account for taskbar
+        x = 8 + (state.windows.length % 4) * 12;
+        y = 8 + (state.windows.length % 4) * 12;
+        if (x + w > window.innerWidth) w = window.innerWidth - x - 8;
+        if (y + h > window.innerHeight - 48) h = window.innerHeight - y - 56;
+      } else {
+        const maxW = window.innerWidth - 32;
+        const maxH = window.innerHeight - 80;
+        if (w > maxW) w = maxW;
+        if (h > maxH) h = maxH;
+        if (x + w > window.innerWidth) x = Math.max(16, window.innerWidth - w - 16);
+        if (y + h > window.innerHeight - 48) y = Math.max(16, window.innerHeight - h - 64);
+      }
+    }
+
     idCounter += 1;
     const win: WinState = {
       id: `${app}-${idCounter}`,
       app,
       title: opts?.title ?? APP_TITLES[app],
-      x: 80 + offset,
-      y: 60 + offset,
-      width: size.w,
-      height: size.h,
+      x,
+      y,
+      width: w,
+      height: h,
       z,
       minimized: false,
       maximized: false,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useOS } from "@/store/os";
 import Window from "@/components/Window";
 import Taskbar from "@/components/Taskbar";
@@ -13,7 +13,6 @@ export default function Desktop() {
   const [showWheel, setShowWheel] = useState(true);
   const [welcome, setWelcome] = useState(true);
   const [morphing, setMorphing] = useState(false);
-  const previousWindowCount = useRef(0);
 
   useEffect(() => {
     fetch("/api/visits", { method: "POST" }).catch(() => {});
@@ -35,17 +34,10 @@ export default function Desktop() {
     return () => window.removeEventListener("sarthakos:open-wheel", handler);
   }, []);
 
-  // Whenever a window is closed, the wheel morphs back in and becomes the
-  // persistent home surface again.
   useEffect(() => {
-    const prev = previousWindowCount.current;
-    const current = windows.length;
-
-    if (prev > current && !showWheel) {
+    if (windows.length === 0 && !showWheel) {
       openWheel(true);
     }
-
-    previousWindowCount.current = current;
   }, [windows.length, showWheel]);
 
   return (
@@ -64,13 +56,19 @@ export default function Desktop() {
       </div>
 
       {welcome && showWheel && (
-        <div className="pointer-events-none absolute left-1/2 top-6 z-50 -translate-x-1/2 rounded-full border border-white/10 bg-black/55 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur">
+        <div className="pointer-events-none absolute left-1/2 top-6 z-[9999] -translate-x-1/2 rounded-full border border-white/10 bg-black/55 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur">
           ✨ Hover an icon, then click to explore SarthakOS
         </div>
       )}
 
       {showWheel && (
-        <div className="absolute inset-0 z-40 bg-gradient-to-b from-black/45 via-slate-950/35 to-black/55">
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-black/45 via-slate-950/35 to-black/55"
+          style={{ zIndex: 9990 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget && windows.length > 0) setShowWheel(false);
+          }}
+        >
           <AppWheel morphing={morphing} onLaunch={() => setShowWheel(false)} />
           {windows.length > 0 && (
             <button
