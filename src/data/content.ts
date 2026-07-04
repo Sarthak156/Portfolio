@@ -23,7 +23,7 @@ export const about = {
   ],
   timeline: [
     { year: "2024", note: "Started B.Tech CSE (Data Science) @ IPS Academy" },
-    { year: "2025", note: "Built DamageVision, CSVPI, StudentSphere" },
+    { year: "2025", note: "Grinding Phase" },
     { year: "2026", note: "Data Science Intern @ VECV — Eicher Group" },
   ],
 };
@@ -46,12 +46,12 @@ export const experience = [
     summary:
       "Spare-parts demand forecasting for the aftermarket supply chain.",
     points: [
-      "Built a hybrid ML forecasting pipeline using multiple algorithms, achieving ~80% accuracy across 2,000+ spare-part SKUs.",
-      "Engineered 30+ features — lag variables, rolling statistics, zero-demand streaks, and calendar encodings — for sparse, intermittent demand forecasting.",
-      "Performed data-leakage audits and fixed preprocessing/modelling issues, improving reliability and reproducibility of results.",
-      "Developed dashboards and EDA reports used to communicate forecast quality to stakeholders.",
+      "Built a two-stage hybrid ML forecasting pipeline for sparse-demand vehicle spare parts, achieving ~80% forecasting accuracy across 2,000+ SKUs.",
+      "Engineered 30+ demand forecasting features including lag variables, rolling statistics, zero-demand streaks, and cyclical calendar encodings.",
+      "Conducted data leakage audits and optimized preprocessing and modeling workflows to improve forecast reliability and reproducibility.",
+      "Developed a full-stack Inventory Intelligence Platform with dashboards, EDA modules, forecasting insights, and inventory analytics using React, FastAPI, and Python.",
     ],
-    tech: ["Python", "Scikit-learn", "Pandas", "Time-Series", "WMAPE", "Dashboards"],
+    tech: ["Python", "Scikit-learn", "Pandas", "Time-Series", "WMAPE", "Dashboards", "Data Science", "Data Analytics"],
   },
 ];
 
@@ -73,9 +73,9 @@ export const projects: Project[] = [
   {
     index: "01",
     title: "DamageVision",
-    subtitle: "AI vehicle damage detection platform",
+    subtitle: "AI Car damage detection platform",
     overview:
-      "An AI-powered platform that detects vehicle damage from images using YOLOv8, then turns detections into actionable inspection artefacts.",
+      "An AI-powered platform that detects car damage from images using YOLOv8, then turns detections into actionable inspection artefacts.",
     achievements: [
       "Automated damage identification with a YOLOv8 detection pipeline.",
       "Generated inspection summaries and estimated repair costs per detection.",
@@ -86,25 +86,25 @@ export const projects: Project[] = [
     flow: ["Image", "YOLOv8", "Cost Est.", "PDF Report"],
     tech: ["Python", "YOLOv8", "Computer Vision", "Flask"],
     tags: ["Computer Vision", "AI System"],
-    github: "https://github.com/sarthak156",
+    github: "https://github.com/Sarthak156/Car_Damage_Detection",
   },
   {
     index: "02",
-    title: "Vehicle Parts Demand Forecasting CLI",
-    subtitle: "Forecasting engine for ~1M records",
+    title: "DemandGrid",
+    subtitle: "Full-Stack Inventory Intelligence Platform",
     overview:
-      "A forecasting system covering 2,000+ demand segments, benchmarking classical and ML models on roughly one million records of parts demand.",
+      "A full-stack inventory intelligence platform built for forecasting sparse vehicle spare-parts demand and generating operational insights across large-scale inventory datasets.",
     achievements: [
-      "Combined ARIMA, Holt-Winters, moving average, and regression models per segment.",
-      "Automated Excel-based accuracy reporting to compare model performance across segments.",
-      "Used results to iterate the forecasting strategy segment-by-segment.",
+      "Built a sparse-demand forecasting pipeline for intermittent inventory data.",
+      "Developed automated risk analysis and recommendation workflows.",
+      "Designed and deployed a React + FastAPI dashboard system.",
     ],
     architecture:
-      "Raw demand history → feature & segment builder → model bank (ARIMA / Holt-Winters / regression) → accuracy scorer → Excel reports via openpyxl.",
-    flow: ["~1M rows", "Model Bank", "Scorer", "Excel Report"],
-    tech: ["Python", "Pandas", "ARIMA", "Scikit-learn", "openpyxl"],
+      "Dataset Upload → Preprocessing Pipeline → Forecast Engine → Risk & Recommendation Layer → Analytics Dashboard → Export System",
+    flow: ["~34K SKUs", "Forecast Engine", "Risk Analytics", "Recommendations", "Export Reports",],
+    tech: ["Python", "Pandas", "FastAPI", "React", "Scikit-learn", "Vercel",],
     tags: ["Forecasting", "ML Engineering"],
-    github: "https://github.com/sarthak156",
+    github: "https://github.com/Sarthak156/Inventory-Intelligence-Platform",
   },
   {
     index: "03",
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     flow: ["CSV", "Clean", "Analyse", "Report"],
     tech: ["Python", "Pandas", "Matplotlib", "Streamlit"],
     tags: ["Analytics", "Tooling"],
-    github: "https://github.com/sarthak156",
+    github: "https://github.com/Sarthak156/CSVPI",
   },
   {
     index: "04",
@@ -140,7 +140,7 @@ export const projects: Project[] = [
     flow: ["Flask", "Supabase", "Dashboard", "Chat"],
     tech: ["Flask", "Supabase", "Full-Stack"],
     tags: ["Full-Stack", "Dashboards"],
-    github: "https://github.com/sarthak156",
+    github: "https://github.com/Sarthak156/StudentSphere",
   },
 ];
 
