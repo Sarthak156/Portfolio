@@ -7,12 +7,37 @@ import { Squiggle, CircleScribble } from "./Doodles";
 export default function Contact() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Hello from ${name || "your portfolio"}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name}`);
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    setStatus("sending");
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          message,
+          _subject: `Portfolio message from ${name || "a visitor"}`,
+          _captcha: "false",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to send message");
+      }
+
+      setStatus("success");
+      setName("");
+      setMessage("");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -94,12 +119,17 @@ export default function Contact() {
             </label>
             <button
               type="submit"
+              disabled={status === "sending"}
               className="sketch-border lift mt-6 inline-flex items-center gap-2 bg-accent px-7 py-3 text-sm font-semibold text-paper-2"
               style={{ borderColor: "#2E5347" }}
             >
-              Send Message
+              {status === "sending" ? "Sending..." : "Send Message"}
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M2 8l12-6-4 12-2.5-4.5L2 8z"/></svg>
             </button>
+            <p className="mt-4 min-h-5 font-mono text-xs text-muted" aria-live="polite">
+              {status === "success" ? "Message sent. I’ll see it in my inbox shortly." : null}
+              {status === "error" ? "Something went wrong sending the message. Please try again." : null}
+            </p>
           </form>
         </Reveal>
       </div>
