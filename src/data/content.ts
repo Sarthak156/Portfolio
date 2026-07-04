@@ -87,6 +87,7 @@ export const projects: Project[] = [
     tech: ["Python", "YOLOv8", "Computer Vision", "Flask"],
     tags: ["Computer Vision", "AI System"],
     github: "https://github.com/Sarthak156/Car_Damage_Detection",
+    demo: "https://damagevision.vercel.app/",
   },
   {
     index: "02",
@@ -105,6 +106,7 @@ export const projects: Project[] = [
     tech: ["Python", "Pandas", "FastAPI", "React", "Scikit-learn", "Vercel",],
     tags: ["Forecasting", "ML Engineering"],
     github: "https://github.com/Sarthak156/Inventory-Intelligence-Platform",
+    demo: "https://demandgrid.vercel.app/",
   },
   {
     index: "03",
@@ -123,6 +125,7 @@ export const projects: Project[] = [
     tech: ["Python", "Pandas", "Matplotlib", "Streamlit"],
     tags: ["Analytics", "Tooling"],
     github: "https://github.com/Sarthak156/CSVPI",
+    demo: "https://csv-pi.streamlit.app/",
   },
   {
     index: "04",
@@ -141,6 +144,7 @@ export const projects: Project[] = [
     tech: ["Flask", "Supabase", "Full-Stack"],
     tags: ["Full-Stack", "Dashboards"],
     github: "https://github.com/Sarthak156/StudentSphere",
+    demo: "https://student-sphere-beta.vercel.app/",
   },
 ];
 

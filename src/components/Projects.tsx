@@ -24,7 +24,19 @@ export default function Projects() {
                   </h3>
                   <p className="font-hand mt-0.5 text-xl text-steel">{p.subtitle}</p>
                 </div>
-                <div className="flex shrink-0 gap-2 pt-1">
+                <div className="flex shrink-0 flex-wrap justify-end gap-2 pt-1">
+                  {p.demo ? (
+                    <a
+                      href={p.demo}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${p.title} live demo`}
+                      className="sketch-border-soft inline-flex h-9 items-center gap-1.5 bg-accent px-3.5 text-[11px] font-semibold tracking-wide text-paper transition-all hover:-rotate-2 hover:bg-accent/90"
+                    >
+                      Live Demo
+                      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M3 13L13 3m0 0H6m7 0v7"/></svg>
+                    </a>
+                  ) : null}
                   <a
                     href={p.github}
                     target="_blank"
