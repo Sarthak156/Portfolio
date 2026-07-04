@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sarthak Goyal — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --ink:#1f1f1f; --soft:#4a4a45; --accent:#3d6b5d; --muted:#8a8578; --line:#e0dcd2; }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, sans-serif; background:#f0ede6; color: var(--ink); font-size: 13px; line-height: 1.5; }
+  .page { max-width: 800px; margin: 32px auto; background: #fdfcf9; padding: 48px 56px; box-shadow: 0 8px 40px rgba(0,0,0,.1); }
+  h1 { font-family:"Space Grotesk",sans-serif; font-size: 26px; letter-spacing: .5px; }
+  .contact { color: var(--soft); font-size: 12px; margin-top: 4px; }
+  .contact a { color: var(--accent); text-decoration: none; }
+  h2 { font-family:"Space Grotesk",sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); border-bottom: 1.5px solid var(--line); padding-bottom: 4px; margin: 22px 0 10px; }
+  .row { display:flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+  .role { font-weight: 600; }
+  .meta { color: var(--muted); font-size: 12px; }
+  ul { padding-left: 18px; margin-top: 4px; }
+  li { margin-bottom: 3px; color: var(--soft); }
+  .proj { margin-bottom: 10px; }
+  .proj .tech { color: var(--muted); font-size: 11.5px; }
+  .skills p { margin-bottom: 4px; color: var(--soft); }
+  .skills b { color: var(--ink); font-weight: 600; }
+  .printbar { position: fixed; top: 16px; right: 16px; }
+  .printbar button { font-family: Inter, sans-serif; background: var(--accent); color: #fff; border: 0; padding: 10px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(61,107,93,.35); }
+  @media print { body { background:#fff; } .page { box-shadow:none; margin:0; padding: 24px 32px; max-width:none; } .printbar { display:none; } }
+</style>
+</head>
+<body>
+<div class="printbar"><button onclick="window.print()">⤓ Print / Save as PDF</button></div>
+<div class="page">
+  <h1>SARTHAK GOYAL</h1>
+  <p class="contact">+91-88710 59264 · <a href="mailto:goyalsarthak156@gmail.com">goyalsarthak156@gmail.com</a> · <a href="https://www.linkedin.com/in/sarthak156/">LinkedIn</a> · <a href="https://github.com/sarthak156">GitHub</a> · Indore, Madhya Pradesh, India</p>
+
+  <h2>Professional Summary</h2>
+  <p style="color:var(--soft)">Data Science and ML-focused Computer Science undergraduate skilled in Python, SQL, Scikit-learn. Built production-ready ML pipelines and forecasting systems during internship at VE Commercial Vehicles. Interested in Data Science, Data Analytics, ML Engineering, and Software Development roles.</p>
+
+  <h2>Education</h2>
+  <div class="row"><span class="role">B.Tech, Computer Science &amp; Engineering — IPS Academy, Indore, MP</span><span class="meta">Sep 2024 – Present</span></div>
+  <p class="meta">Specialization: Data Science · CGPA: 8.8</p>
+  <div class="row" style="margin-top:6px"><span class="role">CBSE 12th Board — S.D.A.S.V., Indore, MP</span><span class="meta">2023–2024</span></div>
+
+  <h2>Experience</h2>
+  <div class="row"><span class="role">Data Science Intern — VE Commercial Vehicles Ltd. (VECV), Eicher Group · Pithampur, MP</span><span class="meta">May 2026 – Jul 2026</span></div>
+  <ul>
+    <li>Built a hybrid ML forecasting pipeline using various algorithms, achieving ~80% accuracy across 2,000+ spare-part SKUs.</li>
+    <li>Engineered 30+ features including lag variables, rolling statistics, zero-demand streaks, and calendar encodings for sparse demand forecasting.</li>
+    <li>Performed data leakage audits and fixed preprocessing/modelling issues, improving reliability and reproducibility.</li>
+    <li>Developed dashboards and EDA reports.</li>
+  </ul>
+
+  <h2>Projects</h2>
+  <div class="proj">
+    <span class="role">DamageVision</span> <span class="tech">— Python, YOLOv8, Computer Vision, Flask</span>
+    <ul>
+      <li>Developed an AI-powered vehicle damage detection platform using YOLOv8 for automated damage identification.</li>
+      <li>Generated inspection summaries, estimated repair costs, and exported professional PDF reports.</li>
+    </ul>
+  </div>
+  <div class="proj">
+    <span class="role">Vehicle Parts Demand Forecasting CLI</span> <span class="tech">— Python, Pandas, ARIMA, Scikit-learn, openpyxl</span>
+    <ul>
+      <li>Built a forecasting system for 2,000+ demand segments using ARIMA, Holt-Winters, and regression models on ~1M records.</li>
+      <li>Automated Excel-based accuracy reporting to compare model performance and improve forecasting strategy.</li>
+    </ul>
+  </div>
+  <div class="proj">
+    <span class="role">CSVPI</span> <span class="tech">— Python, Pandas, Matplotlib, Streamlit</span>
+    <ul>
+      <li>Built a Python CLI and Streamlit application for cleaning, analysing, and visualizing CSV datasets.</li>
+      <li>Reduced manual data analysis time by ~60% through modular pipeline design and automated reporting.</li>
+    </ul>
+  </div>
+  <div class="proj">
+    <span class="role">StudentSphere</span> <span class="tech">— Flask, Supabase</span>
+    <ul>
+      <li>Created a student management platform with grading, community chat, admin dashboard, and dark/light theme support.</li>
+      <li>Built a responsive full-stack system using Flask and Supabase backend services.</li>
+    </ul>
+  </div>
+
+  <h2>Technical Skills</h2>
+  <div class="skills">
+    <p><b>Programming Languages:</b> Python, Java, C, C++, SQL</p>
+    <p><b>ML &amp; AI:</b> Scikit-learn, Classification, Regression, Ensemble Methods, Feature Engineering, Cross-Validation</p>
+    <p><b>Data &amp; Analytics:</b> Pandas, NumPy, Matplotlib, Seaborn, EDA, Time-Series Forecasting, Demand Forecasting, WMAPE, MAPE</p>
+    <p><b>Databases:</b> MySQL, MariaDB</p>
+    <p><b>Backend &amp; Frameworks:</b> Spring Boot, JPA, REST APIs, FastAPIs</p>
+    <p><b>Cloud &amp; Platforms:</b> AWS (EC2, S3, Lambda, IAM), Google Colab</p>
+    <p><b>Reporting &amp; Visualization:</b> Excel, Power BI, HTML dashboards, Word/DOCX report generation</p>
+  </div>
+
+  <h2>Certifications</h2>
+  <ul>
+    <li>AWS Core Services &amp; Architecture — Amazon Web Services</li>
+    <li>Data Fundamentals — IBM SkillsBuild</li>
+    <li>Introduction to Data Science — Cisco Networking Academy</li>
+    <li>Python (Basic) — HackerRank · Problem Solving (Basic) — HackerRank</li>
+    <li>Commonwealth Bank — Introduction to Data Science Job Simulation — Forage</li>
+  </ul>
+</div>
+</body>
+</html>
