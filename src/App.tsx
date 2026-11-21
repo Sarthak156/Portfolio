@@ -57,11 +57,13 @@ export default function App() {
     if (musicEnabled) void playMusic();
     document.addEventListener("pointerdown", startOnInteraction, { once: true });
     document.addEventListener("keydown", startOnInteraction, { once: true });
+    window.addEventListener("scroll", startOnInteraction, { once: true, passive: true });
 
     (window as Window & { __akaiMusic?: HTMLAudioElement }).__akaiMusic = audio;
     return () => {
       document.removeEventListener("pointerdown", startOnInteraction);
       document.removeEventListener("keydown", startOnInteraction);
+      window.removeEventListener("scroll", startOnInteraction);
       delete (window as Window & { __akaiMusic?: HTMLAudioElement }).__akaiMusic;
       audio.pause();
       audio.src = "";
